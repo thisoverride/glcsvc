@@ -36,7 +36,7 @@ This project provides a Flask-based API for retrieving a device's geolocation us
 1. Ensure you have Google Chrome installed and the appropriate ChromeDriver version.
 2. Run the application:
    ```sh
-   python app.py
+   python main.py
    ```
 3. Access the geolocation API endpoint:
    ```
@@ -51,7 +51,7 @@ This project provides a Flask-based API for retrieving a device's geolocation us
 │   ├── LocationService.py
 ├── template
 │   ├── index.html
-├── app.py
+├── main.py
 ├── requirements.txt
 ├── README.md
 ```
