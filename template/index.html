@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+    </head>
+    <body>
+    <div id="geolocResult"></div>
+    <script>
+    let geolocData = {
+        status: "pending",
+        latitude: null,
+        longitude: null,
+        accuracy: null,
+        timestamp: null,
+        error: null
+    };
+    
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            geolocData.status = "success";
+            geolocData.latitude = position.coords.latitude;
+            geolocData.longitude = position.coords.longitude;
+            geolocData.accuracy = position.coords.accuracy;
+            geolocData.timestamp = position.timestamp;
+            
+            document.getElementById('geolocResult').textContent = JSON.stringify(geolocData);
+            document.getElementById('geolocResult').setAttribute('data-ready', 'true');
+        }, function (error) {
+            geolocData.status = "error";
+            geolocData.error = error.message;
+            
+            document.getElementById('geolocResult').textContent = JSON.stringify(geolocData);
+            document.getElementById('geolocResult').setAttribute('data-ready', 'true');
+        }, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        });
+    } else {
+        geolocData.status = "error";
+        geolocData.error = "Géolocalisation non supportée";
+        document.getElementById('geolocResult').textContent = JSON.stringify(geolocData);
+        document.getElementById('geolocResult').setAttribute('data-ready', 'true');
+    }
+    </script>
+    </body>
+    </html>
