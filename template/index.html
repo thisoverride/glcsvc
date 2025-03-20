@@ -39,7 +39,7 @@
         });
     } else {
         geolocData.status = "error";
-        geolocData.error = "Géolocalisation non supportée";
+        geolocData.error = "Geolocalisation not supported";
         document.getElementById('geolocResult').textContent = JSON.stringify(geolocData);
         document.getElementById('geolocResult').setAttribute('data-ready', 'true');
     }

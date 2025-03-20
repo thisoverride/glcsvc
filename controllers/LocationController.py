@@ -1,23 +1,55 @@
-from flask import jsonify
-import logging
-
-logger = logging.getLogger(__name__)
+import socket
+import os
+import json  # Importer le module json pour parser le message
 
 class LocationController:
-    def __init__(self, app, locationService):
+    def __init__(self, locationService):
+        self.SOCKET_PATH: str = '/tmp/smx-glc-service.sock'
         self.locationService = locationService
-        self.register_routes(app)
-        
-    def register_routes(self, app):
-        app.route('/device/position', methods=['GET'])(self.currentLocation)
-        
-    def currentLocation(self):
+        self.CONTEXT: str = 'GET_LOCATION'
+        self._initSocket()
+
+    def _initSocket(self):
         try:
-            geolocation_data = self.locationService.getLocation()
-            return geolocation_data, 200
-        except Exception as e:
-            logger.error(f"Erreur lors du traitement de la requête: {str(e)}")
-            return jsonify({
-                "status": "error",
-                "error": str(e)
-            }), 500
+            os.unlink(self.SOCKET_PATH)
+        except OSError:
+            if os.path.exists(self.SOCKET_PATH):
+                raise RuntimeError(f"The socket file {self.SOCKET_PATH} is already exist")
+
+        server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        server.bind(self.SOCKET_PATH)
+        server.listen(5)  
+        print('Server is listening for incoming connections...')
+
+        while True:
+            try:
+                connection, _ = server.accept()
+                print("Client connecté !")
+                data = connection.recv(1024)
+                if data:
+                    message: str = data.decode()
+                    try:
+                        message_dict = json.loads(message)
+                        if 'type' in message_dict:
+                            if message_dict['type'] == self.CONTEXT:
+                                location = self.locationService.getLocation()
+                                connection.sendall(location)
+                            else:
+                                self._sendJsonError(connection,"UNKNOWN_CONTEXT")
+                        else:
+                            self._sendJsonError(connection,"UNEXPECTED_FORMAT")
+
+                    except json.JSONDecodeError:
+                         self._sendJsonError(connection,"INVALID_JSON_FORMAT")
+                         connection.close()
+
+            except Exception as e:
+                print(f"Erreur lors de la connexion : {e}")
+                connection.close()
+
+    def _sendJsonError(self, connection: socket, error_message: str) -> None:
+            error_response = {
+                "type": "error",
+                "error": error_message
+            }
+            connection.sendall(json.dumps(error_response).encode('utf-8'))
