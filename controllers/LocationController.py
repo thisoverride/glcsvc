@@ -1,6 +1,6 @@
 import socket
 import os
-import json  # Importer le module json pour parser le message
+import json
 
 class LocationController:
     def __init__(self, locationService):
