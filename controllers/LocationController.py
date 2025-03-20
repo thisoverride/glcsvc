@@ -24,7 +24,7 @@ class LocationController:
         while True:
             try:
                 connection, _ = server.accept()
-                print("Client connecté !")
+                print("Client connected")
                 data = connection.recv(1024)
                 if data:
                     message: str = data.decode()
@@ -44,7 +44,7 @@ class LocationController:
                          connection.close()
 
             except Exception as e:
-                print(f"Erreur lors de la connexion : {e}")
+                print(f"Error: {e}")
                 connection.close()
 
     def _sendJsonError(self, connection: socket, error_message: str) -> None:

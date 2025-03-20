@@ -29,7 +29,6 @@ class LocationService:
         })
 
         driver = webdriver.Chrome(options=chrome_options)
-        logger.info("Navigateur Chrome initialisé en mode headless")
         return driver
 
     def _load_html_page(self):
@@ -37,7 +36,6 @@ class LocationService:
         html_path = os.path.join(script_dir, "..", "template", "index.html")
         file_url = f"file:///{html_path.replace(os.sep, '/')}"
         self.driver.get(file_url)
-        logger.info(f"Fichier HTML chargé: {file_url}")
 
     def _refresh_page(self):
         self.driver.refresh()
@@ -82,4 +80,3 @@ class LocationService:
     def close(self):
         if self.driver:
             self.driver.quit()
-            logger.info("Navigateur fermé proprement")
