@@ -51,7 +51,6 @@ class LocationService:
             WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "#geolocResult[data-ready='true']"))
             )
-            print('ici')
 
             geoloc_result = self.driver.find_element(By.ID, "geolocResult").text
             geoloc_data = json.loads(geoloc_result)
