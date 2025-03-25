@@ -1,2 +1,2 @@
-selenium
-jsonschema
+selenium==4.30.0
+webdriver_manager==4.0.2
