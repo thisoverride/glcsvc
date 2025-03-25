@@ -41,6 +41,7 @@ class LocationService:
             return driver
 
         except Exception as e:
+            print(e)
             logger.error(f"Error initializing WebDriver: {str(e)}")
             return None 
 
