@@ -8,16 +8,16 @@ The service uses Chrome in headless mode to access the browser's Geolocation API
 ```
 .
 ├── controllers/
-│   └── LocationController.py     # Handles Unix socket communication and request validation
+│   └── LocationController.py
 ├── services/
-│   └── LocationService.py        # Core geolocation functionality using Selenium WebDriver
+│   └── LocationService.py
 ├── template/
-│   └── index.html               # HTML template for browser geolocation access
+│   └── index.html
 ├── tests/
-│   ├── __init__.py             # Python package marker for tests
-│   └── test_location_service.py # Unit tests for LocationService
-├── main.py                      # Application entry point
-└── requirements.txt             # Python package dependencies
+│   ├── __init__.py
+│   └── test_location_service.py
+├── main.py
+└── requirements.txt
 ```
 
 ## Usage Instructions
