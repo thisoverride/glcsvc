@@ -32,8 +32,8 @@ The service uses Chrome in headless mode to access the browser's Geolocation API
 ### Installation
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd <repository-name>
+git clone https://github.com/thisoverride/glcsvc
+cd glcsvc
 ```
 
 2. Create and activate a virtual environment:
